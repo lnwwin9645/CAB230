@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Convert JSON Data to HTML Table</title>
+    <style>
+        th, td, p, input {
+            font:14px Verdana;
+        }
+        table, th, td 
+        {
+            border: solid 1px #DDD;
+            border-collapse: collapse;
+            padding: 2px 3px;
+            text-align: center;
+        }
+        th {
+            font-weight:bold;
+        }
+    </style>
+</head>
+<body>
+    <input type="button" onclick="CreateTableFromJSON()" value="Create Table From JSON" />
+    <p id="showData"></p>
+</body>
+
+<script>
+    function CreateTableFromJSON() {
+        var myBooks = [
+            {"offences":["Advertising Prostitution","Armed Robbery","Arson","Assault","Attempted Murder","Bomb Possess and/or use of","Breach Domestic Violence Protection Order","Common Assault","Conspiracy to Murder","Dangerous Operation of a Vehicle","Disobey Move-on Direction","Disqualified Driving","Drink Driving","Driving Causing Death","Drug Offences","Extortion","Fare Evasion","Found in Places Used for Purpose of Prostitution Offences","Fraud","Fraud by Cheque","Fraud by Computer","Fraud by Credit Card","Gaming Racing & Betting Offences","Good Order Offences","Grievous Assault","Handling Stolen Goods","Have Interest in Premises Used for Prostitution Offences","Homicide (Murder)","Identity Fraud","Interfere with Mechanism of Motor Vehicle","Kidnapping & Abduction etc.","Knowingly Participate in Provision Prostitution Offences","Life Endangering Acts","Liquor (excl. Drunkenness)","Manslaughter (excl. by driving)","Manslaughter Unlawful Striking Causing Death","Miscellaneous Offences","Offences Against Property","Offences Against the Person","Other Drug Offences","Other Fraud","Other Handling Stolen Goods","Other Homicide","Other Offences","Other Offences Against the Person","Other Property Damage","Other Prostitution Offences","Other Sexual Offences","Other Stealing","Other Theft (excl. Unlawful Entry)","Permit Minor to be at a Place Used for Prostitution Offences","Possess and/or use other weapons; restricted items","Possess Drugs","Possess etc. Tainted Property","Possess Property Suspected Stolen","Procuring Prostitution","Produce Drugs","Prostitution Offences","Public Nuisance","Public Soliciting","Rape and Attempted Rape","Receiving Stolen Property","Resist Incite Hinder Obstruct Police","Robbery","Sell Supply Drugs","Serious Assault","Serious Assault (Other)","Sexual Offences","Shop Stealing","Stalking","Stealing from Dwellings","Stock Related Offences","Traffic and Related Offences","Trafficking Drugs","Trespassing and Vagrancy","Unarmed Robbery","Unlawful Entry","Unlawful Entry With Intent - Dwelling","Unlawful Entry With Intent - Other","Unlawful Entry With Intent - Shop","Unlawful Entry With Violence - Dwelling","Unlawful Entry Without Violence - Dwelling","Unlawful Possess Concealable Firearm","Unlawful Possess Firearm - Other","Unlawful Use of Motor Vehicle","Vehicles (steal from/enter with intent)","Weapons Act Offences","Weapons Act Offences - Other"]}
+        ]
+
+        // EXTRACT VALUE FOR HTML HEADER. 
+        // ('Book ID', 'Book Name', 'Category' and 'Price')
+        var col = [];
+        for (var i = 0; i < myBooks.length; i++) {
+            for (var key in myBooks[i]) {
+                if (col.indexOf(key) === -1) {
+                    col.push(key);
+                }
+            }
+        }
+
+        // CREATE DYNAMIC TABLE.
+        var table = document.createElement("table");
+
+        // CREATE HTML TABLE HEADER ROW USING THE EXTRACTED HEADERS ABOVE.
+
+        var tr = table.insertRow(-1);                   // TABLE ROW.
+
+        for (var i = 0; i < col.length; i++) {
+            var th = document.createElement("th");      // TABLE HEADER.
+            th.innerHTML = col[i];
+            tr.appendChild(th);
+        }
+
+        // ADD JSON DATA TO THE TABLE AS ROWS.
+        for (var i = 0; i < myBooks.length; i++) {
+
+            tr = table.insertRow(-1);
+
+            for (var j = 0; j < col.length; j++) {
+                var tabCell = tr.insertCell(-1);
+                tabCell.innerHTML = myBooks[i][col[j]];
+            }
+        }
+
+        // FINALLY ADD THE NEWLY CREATED TABLE WITH JSON DATA TO A CONTAINER.
+        var divContainer = document.getElementById("showData");
+        divContainer.innerHTML = "";
+        divContainer.appendChild(table);
+    }
+</script>
+</html>
